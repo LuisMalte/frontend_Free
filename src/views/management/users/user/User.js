@@ -28,7 +28,7 @@ const User = () => {
   useEffect(()=>{
     const getUsers = async() =>{
       const response = await Axios({
-        url: 'http://localhost:1337/api/listuser'
+        url: 'http://localhost:3000/api/listuser'
       });
       const lstUsers = Object.keys(response.data).map(i=> response.data[i]);
       setUserData(lstUsers.flat());
@@ -44,13 +44,13 @@ const User = () => {
   
   function handleEdit(userId){
     
-    navigate(`/users/usereditform//${userId}`)
+    navigate(`/users/usereditform/${userId}`)
   }
 
    const handleDisable = async(userId) =>{
     try{
       console.log("User ID:", userId); // Agregar un console.log para depurar
-      var url = "http://localhost:1337/api/disableuser/"+userId;
+      var url = "http://localhost:3000/api/disableuser/"+userId;
       const response= await Axios.put(url)
       window.location.reload();
 
@@ -63,23 +63,27 @@ const User = () => {
   const columns = [
     {
       title: 'Name',
-      dataIndex: 'restaurantName'
+      dataIndex: 'userName'
     },
     {
-      title: 'NIT',
-      dataIndex: 'restaurantNit'
-    },
-    {
-      title: 'Address',
-      dataIndex: 'restaurantAddress'
+      title: 'Email',
+      dataIndex: 'userEmail'
     },
     {
       title: 'Phone',
-      dataIndex: 'restaurantPhone'
-    },
-    {
+      dataIndex: 'userPhone'
+    },  {
       title: 'City',
       dataIndex: 'cityId'
+    },
+    {
+      title: 'Address',
+      dataIndex: 'userAddress'
+    },
+  
+    {
+      title: 'Password',
+      dataIndex: 'userPassword'
     },
     {
       title: 'Options',
@@ -114,10 +118,10 @@ const User = () => {
                 <CTableDataCell>{user.userAddress}</CTableDataCell>
                 <CTableDataCell>{user.userPassword}</CTableDataCell>
                 <CTableDataCell>
-                  <CButton onClick={() => handleDisable(user.restaurantId)} >
+                  <CButton onClick={() => handleDisable(user.userId)} >
                      <CIcon icon={cilTrash} /> 
                   </CButton>
-                  <CButton onClick={() => handleEdit(user.restaurantId)} >
+                  <CButton onClick={() => handleEdit(user.userId)} >
                     <CIcon icon={cilPencil} /> 
                   </CButton>
                 </CTableDataCell>

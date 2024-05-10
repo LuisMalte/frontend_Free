@@ -10,16 +10,15 @@ import {
 } from '@coreui/react'
 
 const UserForm = () => {
-
     const [userData, setUserData] = useState({
-
         userName: '',
         userEmail: '',
         userPhone: '',
-        cityId:0,
         userAddress: '',
-        userPassword: ''
+        userPassword: '',
+        cityId: 0 
     });
+    
     const [departments, setDepartments] = useState([]);
     const [selectedDepartment, setSelectedDepartment] = useState('');
     const [cities, setCities] = useState([]);
@@ -28,13 +27,13 @@ const UserForm = () => {
 
     useEffect(()=>{
         const getDepartments = async () => {
-            const response = await Axios({url:'http://localhost:1337/api/listdepartments'});
+            const response = await Axios({url:'http://localhost:3000/api/listdepartments'});
             const lstDepartments = Object.keys(response.data).map(i=> response.data[i]);
             setDepartments(lstDepartments.flat());
         }
 
         const getCities = async(departmentId)=>{
-            const response = await Axios({url: `http://localhost:1337/api/listcities/${departmentId}`});
+            const response = await Axios({url: `http://localhost:3000/api/listcities/${departmentId}`});
             const lstCities = Object.keys(response.data).map(i=> response.data[i]);
             setCities(lstCities.flat());
         }
@@ -73,7 +72,8 @@ const UserForm = () => {
     const handleSubmit = async(event)=>{
         event.preventDefault();
         try{
-            const response = await Axios.post('http://localhost:1337/api/createuser', userData);
+            
+            const response = await Axios.post('http://localhost:3000/api/createuser', userData);
             console.log(response.data);
             navigate('/users/user');
         }
@@ -107,13 +107,13 @@ const UserForm = () => {
                 </CFormSelect>
             </CCol>
             <CCol xs={4}>
-                <CFormInput type="text" id="userAddress" name="userAddress" label="Address" value={userData.restaurantAddress} onChange={handleChange} />
+                <CFormInput type="text" id="userAddress" name="userAddress" label="Address" value={userData.userAddress} onChange={handleChange} />
             </CCol>
             <CCol md={12}>
                 <CFormInput type="text" id="userPhone" name="userPhone" label="Phone" value={userData.userPhone} onChange={handleChange} />
             </CCol>
             <CCol md={12}>
-                <CFormInput type="text" id="userPassword" name="userPassword" label="Phone" value={userData.userPassword} onChange={handleChange} />
+                <CFormInput type="text" id="userPassword" name="userPassword" label="Password" value={userData.userPassword} onChange={handleChange} />
             </CCol>
             <CCol xs={6}>
                 <CButton color="primary" type="submit" >Save</CButton>
