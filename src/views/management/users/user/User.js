@@ -60,36 +60,7 @@ const User = () => {
     }
   }
 
-  const columns = [
-    {
-      title: 'Name',
-      dataIndex: 'userName'
-    },
-    {
-      title: 'Email',
-      dataIndex: 'userEmail'
-    },
-    {
-      title: 'Phone',
-      dataIndex: 'userPhone'
-    },  {
-      title: 'City',
-      dataIndex: 'cityId'
-    },
-    {
-      title: 'Address',
-      dataIndex: 'userAddress'
-    },
-  
-    {
-      title: 'Password',
-      dataIndex: 'userPassword'
-    },
-    {
-      title: 'Options',
-    }
-  ]
-  console.log("User Data:", userData);
+
 
 
   return (
