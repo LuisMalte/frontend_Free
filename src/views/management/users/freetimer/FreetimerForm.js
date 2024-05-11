@@ -12,21 +12,21 @@ import {
 const FreetimerForm = () => {
     const [freetimeData, setFreetimeData] = useState({
         userId: '',
-        healthInsurance: true,
-        categoryId: '1C',
+        healthInsurance: '',
+        categoryId: '',
     });
     
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');
-
     const navigate = useNavigate();
 
     useEffect(()=>{
-
         const getCategory = async () => {
             const response = await Axios({url:'http://localhost:3000/api/listCategories'});
             const lstCategories = Object.keys(response.data).map(i=> response.data[i]);
             setCategories(lstCategories.flat());
+            console.log(categories)
+            console.log(selectedCategory)
         }
 
         getCategory();
@@ -36,6 +36,10 @@ const FreetimerForm = () => {
 
     function handleSelectCategories(event){
         setSelectedCategory(event.target.value);
+        setFreetimeData({
+            ...freetimeData,
+            categoryId:event.target.value
+        })
     }
 
     function handleChange(event){
