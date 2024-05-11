@@ -22,21 +22,22 @@ import{
 }from '@coreui/icons';
 
 
-const User = () => {
+const Freetimer = () => {
 
-  const [userData, setUserData] = useState([]);
+  const [freetimerData, setFreetimerData] = useState([]);
   const navigate = useNavigate();
 
   useEffect(()=>{
-    const getUsers = async() =>{
+    const getFreetimers = async() =>{
       const response = await Axios({
-        url: 'http://localhost:3000/api/listuser'
+        url: 'http://localhost:3000/api/listfreetimers'
       });
-      const lstUsers = Object.keys(response.data).map(i=> response.data[i]);
-      setUserData(lstUsers.flat());
+      const lsFreetimers = Object.keys(response.data).map(i=> response.data[i]);
+      setFreetimerData(lsFreetimers.flat());
+      console.log(setFreetimerData)
     }
 
-    getUsers();
+    getFreetimers();
   },[]);
 
   function handleCreateUser(event){
@@ -44,7 +45,7 @@ const User = () => {
   }
 
   function handleCreateFreetimer(event){
-    navigate('/users/userform');
+    navigate(`/users/freetimerform/${userId}`);
   }
   function handleCreateFulltimer(event){
     navigate('/users/userform');
@@ -55,10 +56,10 @@ const User = () => {
     navigate(`/users/usereditform/${userId}`)
   }
 
-   const handleDisable = async(userId) =>{
+   const handleDisable = async(freetimerId) =>{
     try{
-      console.log("User ID:", userId); // Agregar un console.log para depurar
-      var url = "http://localhost:3000/api/disableuser/"+userId;
+      console.log("User ID:", freetimerId); // Agregar un console.log para depurar
+      var url = "http://localhost:3000/api/disablefreetimer/"+freetimerId;
       const response= await Axios.put(url)
       window.location.reload();
 
@@ -86,41 +87,38 @@ const User = () => {
       <CTable>
         <CTableHead>
           <CTableRow>
+          <CTableHeaderCell>Id freetimer</CTableHeaderCell>
             <CTableHeaderCell>Name</CTableHeaderCell>
             <CTableHeaderCell>Email</CTableHeaderCell>
             <CTableHeaderCell>Phone</CTableHeaderCell>
             <CTableHeaderCell>City</CTableHeaderCell>
             <CTableHeaderCell>Address</CTableHeaderCell>
-            <CTableHeaderCell>Password</CTableHeaderCell>
+            <CTableHeaderCell>Category</CTableHeaderCell>
             <CTableHeaderCell>Options</CTableHeaderCell>
-            <CTableHeaderCell>Tipo de usuario</CTableHeaderCell>
-
           </CTableRow>
         </CTableHead>
         <CTableBody>
           
-            {userData.map((user, index) => (
+            {freetimerData.map((freetimer, index) => (
               <CTableRow key={index}>
-                <CTableDataCell>{user.userName}</CTableDataCell>
-                <CTableDataCell>{user.userEmail}</CTableDataCell>
-                <CTableDataCell>{user.userPhone}</CTableDataCell>
-                <CTableDataCell>{user.cityId}</CTableDataCell>
-                <CTableDataCell>{user.userAddress}</CTableDataCell>
-                <CTableDataCell>{user.userPassword}</CTableDataCell>
+                <CTableDataCell>{freetimer.freetimerId}</CTableDataCell>
+                <CTableDataCell>{freetimer.user.userName}</CTableDataCell>
+                <CTableDataCell>{freetimer.user.userEmail}</CTableDataCell>
+                <CTableDataCell>{freetimer.user.userPhone}</CTableDataCell>
+                <CTableDataCell>{freetimer.user.cityId}</CTableDataCell>
+                <CTableDataCell>{freetimer.user.userAddress}</CTableDataCell>
+                <CTableDataCell>{freetimer.category.categoryName}</CTableDataCell>
                 <CTableDataCell>
-                  <CButton onClick={() => handleDisable(user.userId)} >
+                  <CButton onClick={() => handleDisable(freetimer.freetimerId)} >
                      <CIcon icon={cilTrash}
                      size="xl" /> 
                   </CButton>
-                  <CButton onClick={() => handleEdit(user.userId)} >
+                  <CButton onClick={() => handleEdit(freetimer.freetimerId)} >
                     <CIcon icon={cilPencil} 
                     size="xl"/> 
                   </CButton>
                 </CTableDataCell>
-                <CTableDataCell>
-                  <CButton onClick={ handleCreateFreetimer} color="secondary" size="xl">FreeTimer</CButton>{' '}
-                  <CButton onClick={ handleCreateFulltimer} color="secondary" size="xl">FullTimddder</CButton>
-                </CTableDataCell>
+               
                 </CTableRow>
               ))}
         </CTableBody>
@@ -129,4 +127,4 @@ const User = () => {
   )
 }
 
-export default User
+export default Freetimer

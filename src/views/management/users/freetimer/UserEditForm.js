@@ -32,6 +32,8 @@ const UserEditForm = () => {
             const response = await Axios({url:`http://localhost:3000/api/getuser/${userId}`});
             const user = response.data.data;
             setUserData (user)
+            setDepartments(user.city.departmentId)
+            
         }
 
         const getDepartments = async () => {
