@@ -44,16 +44,10 @@ const Freetimer = () => {
     navigate('/users/userform');
   }
 
-  function handleCreateFreetimer(event){
-    navigate(`/users/freetimerform/${userId}`);
-  }
-  function handleCreateFulltimer(event){
-    navigate('/users/userform');
-  }
   
-  function handleEdit(userId){
+  function handleEdit(freetimerId){
     
-    navigate(`/users/usereditform/${userId}`)
+    navigate(`/users/freetimereditform/${freetimerId}`)
   }
 
    const handleDisable = async(freetimerId) =>{
@@ -74,16 +68,6 @@ const Freetimer = () => {
 
   return (
     <div>
-      <CButton onClick={handleCreateUser} style={{ display: 'flex', alignItems: 'center' }}>
-          New User
-          <span style={{ marginLeft: '5px', fontSize: '20px' }}>
-              <div >
-                  <CIcon icon={cilUserPlus} size="xl" />
-
-              </div>
-          </span>
-      </CButton>
-
       <CTable>
         <CTableHead>
           <CTableRow>

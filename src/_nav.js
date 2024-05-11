@@ -5,7 +5,7 @@ import {
   cilSpeedometer,
   cilPeople,
   cilUser, 
-  cilFeaturedPlaylist
+  cilBriefcase
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
@@ -37,7 +37,7 @@ const _nav = [
         component: CNavItem,
         name: 'FreeTimer',
         to:'/users/freetimer',
-        icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
+        icon: <CIcon icon={cilBriefcase} customClassName="nav-icon" />,
 
       }
     ]

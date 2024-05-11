@@ -7,6 +7,7 @@ const UserForm = React.lazy(()=> import('./views/management/users/user/UserForm'
 const UserEditForm = React.lazy(()=> import('./views/management/users/user/UserEditForm'))
 const FreeTimer=React.lazy(()=> import('./views/management/users/freetimer/Freetimer'))
 const FreeTimerForm = React.lazy(()=> import('./views/management/users/freetimer/FreetimerForm'))
+const FreeTimerEditForm = React.lazy(()=> import('./views/management/users/freetimer/FreetimerEditForm'))
 
 
 const routes = [
@@ -17,7 +18,8 @@ const routes = [
   { path: '/users/userform', name: 'userForm', element: UserForm },
   { path: '/users/usereditform/:userId', name: 'userEditForm', element: UserEditForm },
   { path: '/users/freetimer', name: 'freetimer', element: FreeTimer},
-  { path: '/users/freetimerform', name: 'freetimerForm', element: FreeTimerForm },
+  { path: '/users/freetimerform/:userId', name: 'freetimerForm', element: FreeTimerForm },
+  { path: '/users/freetimereditform/:freetimerId', name: 'freetimereditform', element: FreeTimerEditForm },
 
 
 ]

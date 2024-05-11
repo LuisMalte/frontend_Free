@@ -9,20 +9,26 @@ import {
     CButton
 } from '@coreui/react'
 
-const FreetimerForm = () => {
-    const{userId} = useParams();
-    const [freetimeData, setFreetimeData] = useState({
-        userId: userId,
-        healthInsurance: '',
+const FreetimerEditForm = () => {
+
+    const{freetimerId } = useParams();
+    const [freetimerData, setFreetimerData] = useState({
         categoryId: '',
+
     });
-    
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');
-    const [booleanOptions] = useState([true, false]); // Opciones booleanas
     const navigate = useNavigate();
-
     useEffect(()=>{
+
+        const getFreetimer = async () => {
+            const response = await Axios({url:`http://localhost:3000/api/getfreetimer/${freetimerId}`});
+            const freetimer = response.data.data;
+            setFreetimerData(freetimer)
+            console.log(freetimerData)
+        }
+
+     
         const getCategory = async () => {
             const response = await Axios({url:'http://localhost:3000/api/listCategories'});
             const lstCategories = Object.keys(response.data).map(i=> response.data[i]);
@@ -31,23 +37,25 @@ const FreetimerForm = () => {
             console.log(selectedCategory)
         }
 
+        getFreetimer();
         getCategory();
 
+      
 
     },[selectedCategory]);
 
     function handleSelectCategories(event){
         setSelectedCategory(event.target.value);
-        setFreetimeData({
-            ...freetimeData,
+        setFreetimerData({
+            ...freetimerData,
             categoryId:event.target.value
         })
     }
 
     function handleChange(event){
         const {name, value} = event.target;
-        setFreetimeData({
-            ...freetimeData,
+        setFreetimerData({
+            ...freetimerData,
             [name]: value
         });
     }
@@ -59,9 +67,7 @@ const FreetimerForm = () => {
     const handleSubmit = async(event)=>{
         event.preventDefault();
         try{
-                        console.log(freetimeData)
-
-            const response = await Axios.post('http://localhost:3000/api/createfreetimer', freetimeData);
+            const response = await Axios.put(`http://localhost:3000/api/getfreetimer/${freetimerId}`, freetimerData);
             console.log(response.data);
             navigate('/users/freetimer');
         }
@@ -72,18 +78,7 @@ const FreetimerForm = () => {
 
     return(
         <CForm className="row g-3" onSubmit={handleSubmit}>
-            <CCol md={12}>
-                <CFormInput type="text" id="userId" name="userId" label="User ID" value={freetimeData.userId} onChange={handleChange} />
-            </CCol>
-            <CCol md={12}>
-            <CFormSelect id="healthInsurance" name="healthInsurance" label="Health Insurance" value={freetimeData.healthInsurance} onChange={handleChange}>
-                    <option value="">Select an option</option>
-                    {booleanOptions.map(option => (
-                        <option key={option} value={option}>{option.toString()}</option>
-                    ))}
-                </CFormSelect>
-            </CCol>
-            <CCol xs={12}>
+             <CCol xs={12}>
                 <CFormSelect id="category Options" label = "category" value={ selectedCategory} onChange={handleSelectCategories} >
                     <option value="">Select a category</option>
                     {categories.map(opcion =>(
@@ -91,7 +86,7 @@ const FreetimerForm = () => {
                     ))}
                 </CFormSelect>
             </CCol>
-            <CCol xs={6}>
+             <CCol xs={6}>
                 <CButton color="primary" type="submit" >Save</CButton>
             </CCol>
             <CCol xs={6}>
@@ -101,4 +96,4 @@ const FreetimerForm = () => {
     )
 }
 
-export default FreetimerForm
+export default FreetimerEditForm
