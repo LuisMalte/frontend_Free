@@ -59,7 +59,7 @@ const FreetimerForm = () => {
     const handleSubmit = async(event)=>{
         event.preventDefault();
         try{
-                        console.log(freetimeData)
+               console.log(freetimeData)
 
             const response = await Axios.post('http://localhost:3000/api/createfreetimer', freetimeData);
             console.log(response.data);

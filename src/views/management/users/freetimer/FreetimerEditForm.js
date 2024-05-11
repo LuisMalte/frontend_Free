@@ -1,93 +1,77 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate,useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Axios from 'axios';
 import {
     CForm,
     CCol,
-    CFormInput,
     CFormSelect,
     CButton
 } from '@coreui/react'
 
 const FreetimerEditForm = () => {
-
-    const{freetimerId } = useParams();
+    const { freetimerId } = useParams();
     const [freetimerData, setFreetimerData] = useState({
         categoryId: '',
-
+        // Aquí puedes agregar más propiedades si es necesario
     });
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');
     const navigate = useNavigate();
-    useEffect(()=>{
 
+    useEffect(() => {
         const getFreetimer = async () => {
-            const response = await Axios({url:`http://localhost:3000/api/getfreetimer/${freetimerId}`});
+            const response = await Axios({ url: `http://localhost:3000/api/getfreetimer/${freetimerId}` });
             const freetimer = response.data.data;
-            setFreetimerData(freetimer)
-            console.log(freetimerData)
+            setFreetimerData(freetimer);
+            setSelectedCategory(freetimer.categoryId);
         }
 
-     
         const getCategory = async () => {
-            const response = await Axios({url:'http://localhost:3000/api/listCategories'});
-            const lstCategories = Object.keys(response.data).map(i=> response.data[i]);
+            const response = await Axios({ url: 'http://localhost:3000/api/listCategories' });
+            const lstCategories = Object.keys(response.data).map(i => response.data[i]);
             setCategories(lstCategories.flat());
-            console.log(categories)
-            console.log(selectedCategory)
         }
 
         getFreetimer();
         getCategory();
+    }, [freetimerId]);
 
-      
-
-    },[selectedCategory]);
-
-    function handleSelectCategories(event){
-        setSelectedCategory(event.target.value);
+    function handleSelectCategories(event) {
+        const categoryId = event.target.value;
+        setSelectedCategory(categoryId);
         setFreetimerData({
             ...freetimerData,
-            categoryId:event.target.value
+            categoryId: categoryId
         })
     }
 
-    function handleChange(event){
-        const {name, value} = event.target;
-        setFreetimerData({
-            ...freetimerData,
-            [name]: value
-        });
-    }
-
-    function handleReturn(event){
+    function handleReturn(event) {
         navigate('/users/freetimer');
     }
 
-    const handleSubmit = async(event)=>{
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        try{
-            const response = await Axios.put(`http://localhost:3000/api/getfreetimer/${freetimerId}`, freetimerData);
+        try {
+            const response = await Axios.put(`http://localhost:3000/api/updatefreetimer/${freetimerId}`, freetimerData);
             console.log(response.data);
             navigate('/users/freetimer');
-        }
-        catch (e){
+        } catch (e) {
             console.log(e);
         }
     }
 
-    return(
+    return (
         <CForm className="row g-3" onSubmit={handleSubmit}>
-             <CCol xs={12}>
-                <CFormSelect id="category Options" label = "category" value={ selectedCategory} onChange={handleSelectCategories} >
+            <CCol xs={12}>
+                <CFormSelect id="categoryOptions" label="Category" value={selectedCategory} onChange={handleSelectCategories}>
                     <option value="">Select a category</option>
-                    {categories.map(opcion =>(
-                        <option key={opcion.value} value={opcion.value}>{opcion.label}</option>
+                    {categories.map(option => (
+                        <option key={option.value} value={option.value}>{option.label}</option>
                     ))}
                 </CFormSelect>
             </CCol>
-             <CCol xs={6}>
-                <CButton color="primary" type="submit" >Save</CButton>
+            <CCol xs={6}>
+                <CButton color="primary" type="submit">Save</CButton>
             </CCol>
             <CCol xs={6}>
                 <CButton color="secondary" onClick={handleReturn}>Cancel</CButton>
@@ -96,4 +80,4 @@ const FreetimerEditForm = () => {
     )
 }
 
-export default FreetimerEditForm
+export default FreetimerEditForm;
