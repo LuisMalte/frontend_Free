@@ -18,6 +18,7 @@ const FreetimerForm = () => {
     
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');
+    const [booleanOptions] = useState([true, false]); // Opciones booleanas
     const navigate = useNavigate();
 
     useEffect(()=>{
@@ -74,7 +75,12 @@ const FreetimerForm = () => {
                 <CFormInput type="text" id="userId" name="userId" label="User ID" value={freetimeData.userId} onChange={handleChange} />
             </CCol>
             <CCol md={12}>
-                <CFormInput type="text" id="healthInsurance" name="healthInsurance" label="health Insurance" value={freetimeData.healthInsurance} onChange={handleChange} />
+            <CFormSelect id="healthInsurance" name="healthInsurance" label="Health Insurance" value={freetimeData.healthInsurance} onChange={handleChange}>
+                    <option value="">Select an option</option>
+                    {booleanOptions.map(option => (
+                        <option key={option} value={option}>{option.toString()}</option>
+                    ))}
+                </CFormSelect>
             </CCol>
             <CCol xs={12}>
                 <CFormSelect id="category Options" label = "category" value={ selectedCategory} onChange={handleSelectCategories} >
