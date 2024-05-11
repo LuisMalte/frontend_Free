@@ -44,7 +44,7 @@ const User = () => {
   }
 
   function handleCreateFreetimer(event){
-    navigate('/users/freetimer');
+    navigate('/users/userform');
   }
   function handleCreateFulltimer(event){
     navigate('/users/userform');
@@ -119,7 +119,7 @@ const User = () => {
                 </CTableDataCell>
                 <CTableDataCell>
                   <CButton onClick={ handleCreateFreetimer} color="secondary" size="xl">FreeTimer</CButton>{' '}
-                  <CButton onClick={ handleCreateFulltimer} color="secondary" size="xl">FullTimer</CButton>
+                  <CButton onClick={ handleCreateFulltimer} color="secondary" size="xl">FullTimddder</CButton>
                 </CTableDataCell>
                 </CTableRow>
               ))}
