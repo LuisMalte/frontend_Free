@@ -99,7 +99,7 @@ const TaskEditForm = () => {
                 <CFormInput type="text" id="taskDescription" name="taskDescription" label="Description" value={taskData.taskDescription} onChange={handleChange} />
             </CCol>
             <CCol xs={12}>
-                <label>Date:</label>
+                <label>Creation date:</label>
                 <br />
                 <DatePicker
                     selected={taskData.date}

@@ -95,7 +95,7 @@ const TaskForm = () => {
             </CCol>
 
             <CCol xs={12}>
-                <label>Date:</label>
+                <label>Creation date:</label>
                 <br />
                 <DatePicker
                     selected={taskData.date}
