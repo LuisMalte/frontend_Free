@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+
 import {
     CForm,
     CCol,
@@ -13,8 +16,8 @@ const TaskForm = () => {
     const [taskData, setTaskData] = useState({
         taskName: '',
         taskDescription: '',
-        date: '',
-        offer: '',
+        date: new Date(), // Inicializa date como un objeto de fecha
+         offer: '',
         address: '',
         taskTypeId: '',
         fulltimerId: '',
@@ -59,6 +62,15 @@ const TaskForm = () => {
     function handleReturn(event){
         navigate('/tasks/task');
     }
+    const handleDateChange = (date) => {
+        setTaskData(prevState => ({
+            ...prevState,
+            date: date
+        }));
+    };
+    
+    
+
 
     const handleSubmit = async(event)=>{
         event.preventDefault();
@@ -66,7 +78,7 @@ const TaskForm = () => {
             
             const response = await Axios.post('http://localhost:3000/api/createTask', taskData);
             console.log(response.data);
-            navigate('/users/user');
+            navigate('/tasks/task');
         }
         catch (e){
             console.log(e);
@@ -82,9 +94,17 @@ const TaskForm = () => {
                 <CFormInput type="text" id="taskDescription" name="taskDescription" label="Task Description" value={taskData.taskDescription} onChange={handleChange} />
             </CCol>
 
-            <CCol xs={4}>
-                <CFormInput type="text" id="date" name="date" label="Date" value={taskData.date} onChange={handleChange} />
+            <CCol xs={12}>
+                <label>Date:</label>
+                <br />
+                <DatePicker
+                    selected={taskData.date}
+                    onChange={handleDateChange}
+                    dateFormat="yyyy-MM-dd"
+                />
             </CCol>
+
+
             <CCol xs={4}>
                 <CFormInput type="text" id="offer" name="offer" label="Offer" value={taskData.offer} onChange={handleChange} />
             </CCol>

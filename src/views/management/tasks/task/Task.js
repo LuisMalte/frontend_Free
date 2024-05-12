@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CIcon from '@coreui/icons-react'
 
+
 import Axios from 'axios';
 import {
   CButton,
@@ -44,7 +45,7 @@ const Task = () => {
   }
 
   function handleEdit(taskId){
-    navigate(`/task/taskeditform/${taskId}`)
+    navigate(`/tasks/taskeditform/${taskId}`)
   }
 
    const handleDisable = async(taskId) =>{
