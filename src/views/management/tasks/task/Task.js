@@ -19,7 +19,7 @@ import {
 import{
   cilTrash,
   cilPencil,
-  cilUserPlus
+  cilPlus
 }from '@coreui/icons';
 
 
@@ -68,7 +68,7 @@ const Task = () => {
           New task
           <span style={{ marginLeft: '5px', fontSize: '20px' }}>
               <div >
-                  <CIcon icon={cilUserPlus} size="xl" />
+                  <CIcon icon={cilPlus} size="xl" />
 
               </div>
           </span>
