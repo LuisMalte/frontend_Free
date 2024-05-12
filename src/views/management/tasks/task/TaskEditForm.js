@@ -33,6 +33,7 @@ const TaskEditForm = () => {
             const response = await Axios({ url: `http://localhost:3000/api/gettask/${taskId}` });
             const task = response.data.data;
             setTaskData(task);
+
             setSelectedTask(task.taskTypeId);
           
         }
@@ -52,12 +53,12 @@ const TaskEditForm = () => {
     function handleSelectTasks(event) {
         const taskId = event.target.value;
         setSelectedTask(taskId);
-        setTaskData({
-            ...taskData,
-            taskId: taskId
-        })
+        setTaskData(prevState => ({
+            ...prevState,
+            taskTypeId: taskId
+        }));
     }
-  
+    
 
     function handleChange(event) {
         const { name, value } = event.target;
