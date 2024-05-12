@@ -16,30 +16,33 @@ const TaskForm = () => {
     const [taskData, setTaskData] = useState({
         taskName: '',
         taskDescription: '',
-        date: new Date(), // Inicializa date como un objeto de fecha
-         offer: '',
+        date: new Date(),
+        offer: '',
         address: '',
         taskTypeId: '',
         fulltimerId: '',
     });
-    
+
     const [tasks, setTask] = useState([]);
     const [selectedTask, setSelectedTask] = useState('');
-
+    const [fulltimers, setFulltimers] = useState([]);
+    
     const navigate = useNavigate();
 
-    useEffect(()=>{
-        const getTasks = async () => {
-            const response = await Axios({url:'http://localhost:3000/api/listTypes'});
-            const lstTasks = Object.keys(response.data).map(i=> response.data[i]);
+    useEffect(() => {
+        const fetchData = async () => {
+            const taskResponse = await Axios.get('http://localhost:3000/api/listTypes');
+            const fulltimerResponse = await Axios.get('http://localhost:3000/api/listfulltimerid');
+            
+            const lstTasks = Object.keys(taskResponse.data).map(i => taskResponse.data[i]);
             setTask(lstTasks.flat());
+            
+            const lstFulltimers = fulltimerResponse.data.data.map(fulltimer => fulltimer.fulltimerId);
+            setFulltimers(lstFulltimers);
         }
 
-
-        getTasks();
-
-
-    },[selectedTask]);
+        fetchData();
+    }, []);
 
     function handleSelectTasks(event){
         setSelectedTask(event.target.value);
@@ -49,10 +52,16 @@ const TaskForm = () => {
         })
     }
 
+    function handleSelectId(event) {
+        const selectedId = event.target.value;
+        setTaskData({
+            ...taskData,
+            fulltimerId: selectedId
+        });
+    }
     
-
     function handleChange(event){
-        const {name, value} = event.target;
+        const { name, value } = event.target;
         setTaskData({
             ...taskData,
             [name]: value
@@ -62,25 +71,22 @@ const TaskForm = () => {
     function handleReturn(event){
         navigate('/tasks/task');
     }
+
     const handleDateChange = (date) => {
         setTaskData(prevState => ({
             ...prevState,
             date: date
         }));
     };
-    
-    
 
-
-    const handleSubmit = async(event)=>{
+    const handleSubmit = async(event) => {
         event.preventDefault();
-        try{
-            
+        try {
             const response = await Axios.post('http://localhost:3000/api/createTask', taskData);
             console.log(response.data);
+            console.log(taskData)
             navigate('/tasks/task');
-        }
-        catch (e){
+        } catch (e) {
             console.log(e);
         }
     }
@@ -104,7 +110,6 @@ const TaskForm = () => {
                 />
             </CCol>
 
-
             <CCol xs={4}>
                 <CFormInput type="text" id="offer" name="offer" label="Offer" value={taskData.offer} onChange={handleChange} />
             </CCol>
@@ -113,18 +118,25 @@ const TaskForm = () => {
             </CCol>
 
             <CCol xs={12}>
-                <CFormSelect id="taskType" label = "Task taypes" value={ selectedTask} onChange={handleSelectTasks} >
+                <CFormSelect id="taskType" label="Task types" value={selectedTask} onChange={handleSelectTasks}>
                     <option value="">Select task</option>
-                    {tasks.map(opcion =>(
+                    {tasks.map(opcion => (
                         <option key={opcion.value} value={opcion.value}>{opcion.label}</option>
                     ))}
                 </CFormSelect>
             </CCol>
+
             <CCol md={12}>
-                <CFormInput type="text" id="fulltimerId" name="fulltimerId" label="Fulltimer ID" value={taskData.fulltimerId} onChange={handleChange} />
-            </CCol>
+    <CFormSelect id="fulltimerId" label="Fulltimer ID" value={taskData.fulltimerId} onChange={handleSelectId}>
+        <option value="">Select Fulltimer ID</option>
+        {fulltimers.map(id => (
+            <option key={id} value={id}>{id}</option>
+        ))}
+    </CFormSelect>
+</CCol>
+
             <CCol xs={6}>
-                <CButton color="primary" type="submit" >Save</CButton>
+                <CButton color="primary" type="submit">Save</CButton>
             </CCol>
             <CCol xs={6}>
                 <CButton color="secondary" onClick={handleReturn}>Cancel</CButton>
@@ -133,4 +145,4 @@ const TaskForm = () => {
     )
 }
 
-export default TaskForm
+export default TaskForm;
