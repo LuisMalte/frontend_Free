@@ -5,7 +5,9 @@ import {
   cilSpeedometer,
   cilPeople,
   cilUser, 
-  cilBriefcase
+  cilBriefcase,
+  cilGem,
+  cilTask
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
@@ -39,8 +41,21 @@ const _nav = [
         to:'/users/freetimer',
         icon: <CIcon icon={cilBriefcase} customClassName="nav-icon" />,
 
+      },
+      {
+        component: CNavItem,
+        name: 'FullTimer',
+        to:'/users/fulltimer',
+        icon: <CIcon icon={cilGem} customClassName="nav-icon" />,
+
       }
     ]
+  },
+  {
+    component: CNavItem,
+    name: 'Task',
+    to: '/tasks/task',
+    icon: <CIcon icon={cilTask} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
@@ -48,6 +63,7 @@ const _nav = [
     href: 'https://coreui.io/react/docs/templates/installation/',
     icon: <CIcon icon={cilDescription} customClassName="nav-icon" />,
   },
+  
 ]
 
 export default _nav

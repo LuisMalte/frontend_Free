@@ -46,12 +46,12 @@ const User = () => {
   function handleCreateFreetimer(userId){
     navigate(`/users/freetimerform/${userId}`);
   }
-  function handleCreateFulltimer(event){
-    navigate('/users/userEditForm');
+  function handleCreateFulltimer(userId){
+    navigate(`/users/fulltimerform/${userId}`);
   }
   
   function handleEdit(userId){
-    navigate(`/users/usereditform/${userId}`)
+    navigate(`/users/userEditForm/${userId}`)
   }
 
    const handleDisable = async(userId) =>{
@@ -66,8 +66,6 @@ const User = () => {
       console.log(e);
     }
   }
-
-
 
 
   return (
@@ -117,8 +115,8 @@ const User = () => {
                   </CButton>
                 </CTableDataCell>
                 <CTableDataCell>
-                  <CButton onClick={ ()=> handleCreateFreetimer(user.userId)} color="secondary" size="sm">FreeTimer</CButton>{' '}
-                  <CButton onClick={ handleCreateFulltimer} color="secondary" size="sm">FullTimer</CButton>
+                  <CButton onClick={ ()=> handleCreateFreetimer(user.userId)} color="success" size="sm">FreeTimer</CButton>{' '}
+                  <CButton onClick={ ()=> handleCreateFulltimer(user.userId)} color="secondary" size="sm">FullTimer</CButton>
                 </CTableDataCell>
                 </CTableRow>
               ))}

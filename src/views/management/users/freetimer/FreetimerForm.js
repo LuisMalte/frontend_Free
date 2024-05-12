@@ -84,7 +84,7 @@ const FreetimerForm = () => {
                 </CFormSelect>
             </CCol>
             <CCol xs={12}>
-                <CFormSelect id="category Options" label = "category" value={ selectedCategory} onChange={handleSelectCategories} >
+                <CFormSelect id="category Options" label = "category Options" value={ selectedCategory} onChange={handleSelectCategories} >
                     <option value="">Select a category</option>
                     {categories.map(opcion =>(
                         <option key={opcion.value} value={opcion.value}>{opcion.label}</option>
